@@ -2,7 +2,7 @@
 /* CSS Document */
 
 /**************************** Global ********************************/
-html{ 
+html{
     min-height:100%;
 }
 
@@ -16,7 +16,7 @@ body{
 	width: 100%;
 	height:100%;
 	font-family: "Microsoft Yahei", "黑体",  "宋体", Verdana, Geneva, sans-serif;
-	font-size: 12px; 
+	font-size: 12px;
 	color: white;
 }
 a{text-decoration:none;color:white;}
@@ -55,13 +55,12 @@ a:hover{
 .slider h1{
 	text-align: right;
 	font-size: 70px;
-	line-height: 105px;
+	line-height: 1.2;
+    margin-bottom: 0.3em;
 	margin-right: 5px;
 }
 .slider article.left h1{
 	text-align: left;
-	font-size: 70px;
-	line-height: 105px;
 }
 .slider h2{
 	font-size: 40px;
@@ -71,7 +70,7 @@ a:hover{
 .slider h3{
 	font-size: 27px;
 	float: right;
-	line-height: 56px;
+    margin-top: 12px;
 	margin-right: 20px;
 }
 
@@ -133,4 +132,18 @@ a:hover{
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-transition:all 0.5s ease ;
+}
+
+@media only screen and (max-width: 768px){
+    .slider h1{
+        font-size:50px;
+    }
+    .slider h2{
+        font-size:30px;
+    }
+    .slider h3{
+        font-size:22px;
+        margin-top: 8px;
+        margin-right: 10px;
+    }
 }

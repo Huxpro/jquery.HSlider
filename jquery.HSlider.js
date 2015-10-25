@@ -3,9 +3,9 @@
  * ===========================================================
  * Copyright 2013 Hux.
  *
- * Create an Photo-first,Fullpage Slider,Modern website 
+ * Create an Photo-first,Fullpage Slider,Modern website
  * All animation is powered in CSS3
- * Only for modern broswer 
+ * Only for modern broswer
  *
  * ========================================================== */
 
@@ -19,9 +19,9 @@
 	};
 
 	/*------------------------------------------------*/
-	/*  Credit: Eike Send for the awesome swipe event */    
+	/*  Credit: Eike Send for the awesome swipe event */
 	/*------------------------------------------------*/
-	
+
 	$.fn.swipeEvents = function() {
 		return this.each(function() {
 
@@ -38,7 +38,7 @@
 					startY = touches[0].pageY;
 					$this.bind('touchmove', touchmove);
 				}
-				event.preventDefault();
+				//event.preventDefault();
 			}
 
 			function touchmove(event) {
@@ -49,15 +49,19 @@
 
 					if (deltaX >= 50) {
 						$this.trigger("swipeLeft");
+						console.log('testleft');
 					}
 					if (deltaX <= -50) {
 						$this.trigger("swipeRight");
+						console.log('testright');
 					}
 					if (deltaY >= 50) {
 						$this.trigger("swipeUp");
+						console.log('testup');
 					}
 					if (deltaY <= -50) {
 						$this.trigger("swipeDown");
+						console.log('testdown');
 					}
 					if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
 						$this.unbind('touchmove', touchmove);
@@ -69,7 +73,7 @@
 		});
 	};
 
-	/*   swipe event End  */    
+	/*   swipe event End  */
 	/*------------------------------------------------*/
 
 	$.fn.HSlider = function(options){
@@ -79,10 +83,10 @@
 			total = sections.length,
 			quiet = false,
 			paginationList = "";
-	
+
 		$.fn.transformPage = function(settings,pos){
 			$(this).css({
-				"-webkit-transform": "translate3d(" + pos + "%, 0 ,0)", 
+				"-webkit-transform": "translate3d(" + pos + "%, 0 ,0)",
 				"-webkit-transition": "all " + settings.animationTime + "ms " + settings.easing,
 				"-moz-transform": "translate3d(" + pos + "%, 0 ,0)",
 				"-moz-transition": "all " + settings.animationTime + "ms " + settings.easing,
@@ -101,7 +105,7 @@
 
 				current.removeClass("active")
 				next.addClass("active");
-				
+
 				//for pagination
 				if(settings.pagination == true) {
 					$(".pagination li a" + "[data-index='" + indexNow + "']").removeClass("active");
@@ -121,7 +125,7 @@
 
 				current.removeClass("active")
 				next.addClass("active");
-				
+
 				//for pagination
 				if(settings.pagination == true) {
 					$(".pagination li a" + "[data-index='" + indexNow + "']").removeClass("active");
@@ -132,7 +136,7 @@
 				$(this).transformPage(settings, pos);
 			};
 		}
-		
+
 
 		function ready(event,delta){
 
@@ -148,11 +152,11 @@
 				setTimeout(function(){
 					quiet = false;
 					console.log("refresh!"+quiet);
-				} , settings.animationTime+200);   
+				} , settings.animationTime+200);
 			}else{
 				event.preventDefault();
 			}
-		
+
 		}
 
 		//init Style
