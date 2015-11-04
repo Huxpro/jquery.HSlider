@@ -1,11 +1,14 @@
 jQuery.HSlider
 ==============
 
-A jQuery One-Page Slider plugin
+A Full-Page Scrolling, Touch-Friendly jQuery Slider
 
-* Create an photo-first, full-page web slider has never been so easy
-* All animation is powered by CSS3 with GPU acceleration
-* Only for mobile or modern desktop browser
+* Create an Full-Page Scrolling web slider has never been so easy
+* All animations are powered by CSS3 with GPU acceleration
+* Page Index now powered by URL hash for URL Sharing
+* For mobile or modern desktop browser
+
+
 
 ## Live Demo
 
@@ -18,17 +21,16 @@ A jQuery One-Page Slider plugin
 
 
 ## Document
-
 #### Get Started
 
 import styles and scripts
 
 ```html
-<link rel="stylesheet" type="text/css" href="reset.css">  <!--recommended-->
-<link rel="stylesheet" type="text/css" href="hslider.css">  <!--essential-->
-<link rel="stylesheet" type="text/css" href="default-style.css"> <!--optional-->
+<link rel="stylesheet" type="text/css" href="style/reset.css">  	<!--recommended-->
+<link rel="stylesheet" type="text/css" href="style/hslider.css">  	  <!--essential-->
+<link rel="stylesheet" type="text/css" href="style/default-style.css"> <!--optional-->
 <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="jquery.HSlider.js"></script>
+<script type="text/javascript" src="jquery.HSlider.min.js"></script>
 ```
 
 HTML Structure:
@@ -66,20 +68,14 @@ $(".slider").HSlider({
 });
 ```
 
-#### `easing`
+##### `easing {String}`
 
-- @type `String`  
-- @default `ease`  
-- The easing function used in page transition
+- The easing function used in page transition. Default value is `ease`
 
-#### `animationTime`
+##### `animationTime {Number}`
 
-- @type `Number`
-- @default `1300`  
-- The duration used for page transition
+- The duration used for page transition. Default value is `1300`
 
-#### `pagination`
+##### `pagination {Boolean}`
 
-- @tyle `Boolean`  
-- @default `true`  
-- Auto generate pagination or not
+- Auto generate pagination or not. Default value is `true`
