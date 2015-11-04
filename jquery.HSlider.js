@@ -1,7 +1,7 @@
 /* ===========================================================
- * jQuery-HSlider.js v1
+ * jQuery-HSlider.js v2
  * ===========================================================
- * Copyright 2013 Hux.
+ * Copyright 2015 Hux.
  *
  * Create an photo-first, fullpage web slider
  * All animation is powered in CSS3
@@ -48,19 +48,15 @@
 
 					if (deltaX >= 50) {
 						$this.trigger("swipeLeft");
-						console.log('testleft');
 					}
 					if (deltaX <= -50) {
 						$this.trigger("swipeRight");
-						console.log('testright');
 					}
 					if (deltaY >= 50) {
 						$this.trigger("swipeUp");
-						console.log('testup');
 					}
 					if (deltaY <= -50) {
 						$this.trigger("swipeDown");
-						console.log('testdown');
 					}
 					if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
 						$this.unbind('touchmove', touchmove);
@@ -77,7 +73,7 @@
 
 	$.fn.HSlider = function(options){
 		var settings = $.extend({}, defaults, options),
-			wrapper = $(this),
+			$slider = $(this),
 			sections = $("section"),
 			total = sections.length,
 			quiet = false,
@@ -94,78 +90,31 @@
 				"transform": "translate3d(" + pos + "%, 0 ,0)",
 				"transition": "all " + settings.animationTime + "ms " + settings.easing
 			});
+
+			return $(this);
 		}
 
 		$.fn.slideLeft = function(){
-			indexNow = $("section.active").data("index");
-			// 2015 use hashchange
-			location.hash = '#'+ (indexNow + 1);
-			return;
+			var _index = $("section.active").data("index");
+			if (_index < total) location.hash = '#'+ (_index + 1);
 
-			// 2013 old manual way
-			if (indexNow<total) {
-				current = $("section[data-index='" + indexNow + "']");
-				next = $("section[data-index='" + (indexNow + 1) + "']");
-
-				current.removeClass("active")
-				next.addClass("active");
-
-				//for pagination
-				if(settings.pagination == true) {
-					$(".pagination li a" + "[data-index='" + indexNow + "']").removeClass("active");
-					$(".pagination li a" + "[data-index='" + (indexNow + 1) + "']").addClass("active");
-				}
-
-				pos = (indexNow * 100) * -1;
-				$(this).transformPage(settings, pos);
-			};
+			return $(this);
 		}
 
 		$.fn.slideRight = function(){
-			indexNow = $("section.active").data("index");
-			// 2015 use hashchange
-			location.hash = '#'+ (indexNow - 1);
-			return;
+			var _index = $("section.active").data("index");
+			if (_index <= total && _index > 1) location.hash = '#'+ (_index - 1);
 
-			// 2013 old manual way
-			if (indexNow<=total && indexNow>1) {
-				current = $("section[data-index='" + indexNow + "']");
-				next = $("section[data-index='" + (indexNow - 1) + "']");
-
-				current.removeClass("active")
-				next.addClass("active");
-
-				//for pagination
-				if(settings.pagination == true) {
-					$(".pagination li a" + "[data-index='" + indexNow + "']").removeClass("active");
-					$(".pagination li a" + "[data-index='" + (indexNow - 1) + "']").addClass("active");
-				}
-
-				pos = ((next.data("index") - 1) * 100) * -1;
-				$(this).transformPage(settings, pos);
-			};
+			return $(this);
 		}
 
-		function _handleMouseScroll(event, delta){
-			if (quiet == false) {
-				if (delta == 0) return; 	// early return
-				if (delta < 0) {
-					wrapper.slideLeft()
-				} else {
-					wrapper.slideRight()
-				};
-				quiet = true;
-				// deal with OSX inertia scroll
-				setTimeout(function(){
-					quiet = false;
-				}, Number(settings.animationTime) + 100);	// make sure Number
-			}
-		}
-
-		// 2015 add: seperate RENDER, support URL hash
-		function _render(){
-			var _hash = location.hash.split('#')[1];
-			var _activeIndex = _hash ? _hash : 1;
+		// seperate RENDER, support URL hash
+		$.fn._render = function(){
+			var _hash = Math.floor(Number(location.hash.split('#')[1]));	// get hash, do type cast
+			_hash = _hash ?   _hash : 1;									// undefined, 0, NaN
+			if(_hash < 1) 	  _hash = 1;									// prevent pre overflow
+			if(_hash > total) _hash = total;								// prevent post overflow
+			var _activeIndex = _hash;
 
 			// reset current
 			$("section.active").removeClass("active");
@@ -177,92 +126,104 @@
 
 			// calculate pos and transform
 			var pos = ((_activeIndex - 1) * 100) * -1;
-			wrapper.transformPage(settings, pos);
+			$slider.transformPage(settings, pos);
+
+			return $(this);
 		}
 
-		//init Style
-		wrapper.addClass("HSlider").css({
-			"position":"relative",
-			width:"100%",
-			height:"100%",
-		});
-		$.each(sections,function(i){
-			$(this).css({
-				position:"absolute",
-				width:"100%",
-				height:"100%",
-				left:i*100 +"%"
-			}).addClass("section").attr("data-index", i+1);
-			$(this).find("img").css({
-				minWidth: "100%",
-				minHeight: "100%",
-				position:"absolute",
-				zIndex:1
-			})
-			$(this).find("article").css({
-				position:"absolute",
-				boxSizing:"border-box",
-				width:"100%",
-				bottom:0,
-				zIndex:4
-			})
-			if(settings.pagination == true) {
-				paginationList += "<li><a data-index='"+(i+1)+"' href='#" + (i+1) + "'></a></li>"
-			}
-		});
+		$.fn._renderPagination = function(){
+			if(!settings.pagination) return;
 
-		//Create Pagination
-		if(settings.pagination == true) {
+			// Create pagination
 			$("<ul class='pagination'>" + paginationList + "</ul>").prependTo("body");
-			posTop = (wrapper.find(".HSlider").height() / 2) * -1;
-			wrapper.find(".HSlider").css("margin-top", posTop);
-		}
-		if(settings.pagination == true)  {
+			posTop = ($slider.find(".HSlider").height() / 2) * -1;
+			$slider.find(".HSlider").css("margin-top", posTop);
+
+			// bind click event
 			$(".pagination li a").click(function (){
 				var page_index = $(this).data("index");
-
-				//2015: hashchange will trigger transtion
 				location.hash = '#' + page_index;
-				return;
-
-				//2013: old way; not use.
-				if (!$(this).hasClass("active")) {
-					current = $("section.active")
-					next = $("section[data-index='" + (page_index) + "']");
-
-					current.removeClass("active")
-					next.addClass("active")
-
-					$(".pagination li a" + ".active").removeClass("active");
-					$(".pagination li a" + "[data-index='" + (page_index) + "']").addClass("active");
-
-
-					pos = ((page_index - 1) * 100) * -1;
-					wrapper.transformPage(settings, pos);
-				}
 			});
 		}
 
-		//init to slide
-		_render();
-		// hashchange trigger re-render
-		$(window).on('hashchange', _render);
+		$.fn._bindEvent = function(){
+			// HashChange
+			$(window).on('hashchange', $slider._render);
 
-		//bind Mousewheel Scroll Event
-		$(document).bind('mousewheel DOMMouseScroll', function(event) {
-			event.preventDefault();
-			var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
-			_handleMouseScroll(event, delta);
-		});
+			//Mousewheel MouseScroll
+			$(document).bind('mousewheel DOMMouseScroll', function(event) {
+				event.preventDefault();
+				var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+				$slider._handleMouseScroll(event, delta);
+			});
 
-		//bind Touch Event
-		wrapper.swipeEvents().bind("swipeLeft",function(){
-			wrapper.slideLeft();
-		}).bind("swipeRight",function(){
-			wrapper.slideRight();
-		});
+			//Touch
+			$slider.swipeEvents().bind("swipeLeft",function(){
+				$slider.slideLeft();
+			}).bind("swipeRight",function(){
+				$slider.slideRight();
+			});
 
-		return false;
+			return $(this);
+		}
+
+		$.fn._handleMouseScroll = function(event, delta){
+			if (quiet == false) {
+				if (delta == 0) return; 	// early return
+				if (delta < 0) {
+					$slider.slideLeft()
+				} else {
+					$slider.slideRight()
+				};
+				quiet = true;
+				// deal with OSX inertia scroll
+				setTimeout(function(){
+					quiet = false;
+				}, Number(settings.animationTime) + 100);	// make sure Number
+			}
+		}
+
+		$.fn._initStyle = function(){
+			$slider.addClass("HSlider").css({
+				"position":"relative",
+				width:"100%",
+				height:"100%",
+			});
+
+			$.each(sections,function(i){
+				$(this).css({
+					position:"absolute",
+					width:"100%",
+					height:"100%",
+					left:i*100 +"%"
+				}).addClass("section").attr("data-index", i+1);
+				$(this).find("img").css({
+					minWidth: "100%",
+					minHeight: "100%",
+					position:"absolute",
+					zIndex:1
+				})
+				$(this).find("article").css({
+					position:"absolute",
+					boxSizing:"border-box",
+					width:"100%",
+					bottom:0,
+					zIndex:4
+				})
+				if(settings.pagination == true) {
+					paginationList += "<li><a data-index='"+(i+1)+"' href='#" + (i+1) + "'></a></li>"
+				}
+			});
+
+			return $(this);
+		}
+
+		// create slider
+		$slider
+			._initStyle()
+			._bindEvent()
+			._render()
+			._renderPagination()
 	}
 
 })(window.jQuery);

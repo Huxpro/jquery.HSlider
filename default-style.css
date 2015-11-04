@@ -12,6 +12,7 @@
 	-moz-transition:opacity 0.5s ease,-moz-transform 1s ease-out;
 	-ms-transition:opacity 0.5s ease,-ms-transform 1s ease-out;
     padding: 42px;
+	padding-left: 20px;
 }
 .slider article.left{
 	left:0;
