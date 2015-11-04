@@ -1,9 +1,9 @@
 /* ===========================================================
- * jquery-HSlider.js v1
+ * jQuery-HSlider.js v1
  * ===========================================================
  * Copyright 2013 Hux.
  *
- * Create an Photo-first,Fullpage Slider,Modern website
+ * Create an photo-first, fullpage web slider
  * All animation is powered in CSS3
  * Only for modern broswer
  *
@@ -15,7 +15,6 @@
 		easing:"ease",
 		animationTime:1300,
 		pagination:true,
-		description:true
 	};
 
 	/*------------------------------------------------*/
@@ -137,26 +136,20 @@
 			};
 		}
 
-
-		function ready(event,delta){
-
-			console.log('wheel!');
-
+		function _handleMouseScroll(event, delta){
 			if (quiet == false) {
-				if (delta<0) {
+				if (delta == 0) return; 	// early return
+				if (delta < 0) {
 					wrapper.slideLeft()
 				} else {
 					wrapper.slideRight()
 				};
 				quiet = true;
+				// deal with OSX inertia scroll
 				setTimeout(function(){
 					quiet = false;
-					console.log("refresh!"+quiet);
-				} , settings.animationTime+200);
-			}else{
-				event.preventDefault();
+				} , settings.animationTime + 100);
 			}
-
 		}
 
 		//init Style
@@ -197,7 +190,6 @@
 			posTop = (wrapper.find(".HSlider").height() / 2) * -1;
 			wrapper.find(".HSlider").css("margin-top", posTop);
 		}
-
 		if(settings.pagination == true)  {
 			$(".pagination li a").click(function (){
 				var page_index = $(this).data("index");
@@ -218,7 +210,6 @@
 			});
 		}
 
-
 		//init to slide
 		$("section[data-index='1']").addClass("active");
 		$(".pagination li a" + "[data-index=1]").addClass("active");
@@ -227,9 +218,8 @@
 		$(document).bind('mousewheel DOMMouseScroll', function(event) {
 			event.preventDefault();
 			var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
-			ready(event, delta);
+			_handleMouseScroll(event, delta);
 		});
-
 
 		//bind Touch Event
 		wrapper.swipeEvents().bind("swipeLeft",function(){
@@ -237,7 +227,6 @@
 		}).bind("swipeRight",function(){
 			wrapper.slideRight();
 		});
-
 
 		return false;
 	}
