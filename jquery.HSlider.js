@@ -98,6 +98,11 @@
 
 		$.fn.slideLeft = function(){
 			indexNow = $("section.active").data("index");
+			// 2015 use hashchange
+			location.hash = '#'+ (indexNow + 1);
+			return;
+
+			// 2013 old manual way
 			if (indexNow<total) {
 				current = $("section[data-index='" + indexNow + "']");
 				next = $("section[data-index='" + (indexNow + 1) + "']");
@@ -118,6 +123,11 @@
 
 		$.fn.slideRight = function(){
 			indexNow = $("section.active").data("index");
+			// 2015 use hashchange
+			location.hash = '#'+ (indexNow - 1);
+			return;
+
+			// 2013 old manual way
 			if (indexNow<=total && indexNow>1) {
 				current = $("section[data-index='" + indexNow + "']");
 				next = $("section[data-index='" + (indexNow - 1) + "']");
@@ -146,11 +156,28 @@
 				};
 				quiet = true;
 				// deal with OSX inertia scroll
-				console.log(settings.animationTime + 100);
 				setTimeout(function(){
 					quiet = false;
-				} , Number(settings.animationTime) + 100);
+				}, Number(settings.animationTime) + 100);	// make sure Number
 			}
+		}
+
+		// 2015 add: seperate RENDER, support URL hash
+		function _render(){
+			var _hash = location.hash.split('#')[1];
+			var _activeIndex = _hash ? _hash : 1;
+
+			// reset current
+			$("section.active").removeClass("active");
+			$(".pagination li a" + ".active").removeClass("active");
+
+			// activate new
+			$("section[data-index=" + _activeIndex + "]").addClass("active");
+			$(".pagination li a" + "[data-index=" + _activeIndex + "]").addClass("active");
+
+			// calculate pos and transform
+			var pos = ((_activeIndex - 1) * 100) * -1;
+			wrapper.transformPage(settings, pos);
 		}
 
 		//init Style
@@ -194,6 +221,11 @@
 			$(".pagination li a").click(function (){
 				var page_index = $(this).data("index");
 
+				//2015: hashchange will trigger transtion
+				location.hash = '#' + page_index;
+				return;
+
+				//2013: old way; not use.
 				if (!$(this).hasClass("active")) {
 					current = $("section.active")
 					next = $("section[data-index='" + (page_index) + "']");
@@ -204,6 +236,7 @@
 					$(".pagination li a" + ".active").removeClass("active");
 					$(".pagination li a" + "[data-index='" + (page_index) + "']").addClass("active");
 
+
 					pos = ((page_index - 1) * 100) * -1;
 					wrapper.transformPage(settings, pos);
 				}
@@ -211,8 +244,9 @@
 		}
 
 		//init to slide
-		$("section[data-index='1']").addClass("active");
-		$(".pagination li a" + "[data-index=1]").addClass("active");
+		_render();
+		// hashchange trigger re-render
+		$(window).on('hashchange', _render);
 
 		//bind Mousewheel Scroll Event
 		$(document).bind('mousewheel DOMMouseScroll', function(event) {
