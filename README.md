@@ -16,7 +16,7 @@ A jQuery One-Page Slider plugin
 
 import styles and scripts
 
-```
+```html
 <link rel="stylesheet" type="text/css" href="reset.css">
 <link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
@@ -24,7 +24,7 @@ import styles and scripts
 ```
 
 HTML Structure:
-```
+```html
 <div class = "wrap">
 	<div class="slider">
 		<section>
@@ -41,7 +41,7 @@ HTML Structure:
 ```
 
 Init HSlider!
-```
+```javascript
 // deathly simple!
 $(".slider").HSlider();		
 ```
@@ -50,7 +50,7 @@ $(".slider").HSlider();
 
 use options:
 
-```
+```javascript
 $(".slider").HSlider({
 	easing: "ease-in-out",
 	animationTime: 1000,
