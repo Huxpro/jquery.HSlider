@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HSlider | Weather</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+	<script type="text/javascript" src="../jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../jquery.HSlider.js"></script>
+	<link rel="stylesheet" type="text/css" href="../reset.css">
+	<link rel="stylesheet" type="text/css" href="../hsilder.css">
+	<style>
+		/**
+		 * It's very easy to drop default-style.css and write your own.
+		 * but you need to import `hsilder.css` firstly to make slider works
+		 */
+		#weather article{
+			color: white;
+			padding: 10px;
+			padding-top:100px;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.50);
+			background: -webkit-linear-gradient(top,transparent ,rgba(0, 0, 0, 0.9) 100%);
+			background: -moz-linear-gradient(top,transparent ,rgba(0, 0, 0, 0.9) 100%);
+			background: -ms-linear-gradient(top,transparent ,rgba(0, 0, 0, 0.9) 100%);
+		}
+		#weather img{
+			max-width: 100% !important
+		}
+		#weather h1{
+			font-size: 120px;
+			margin-bottom: 0px;
+		}
+		#weather h2{
+			font-size: 21px;
+			font-weight: 300;
+			position: absolute;
+			bottom: 130px;
+			left:25px;
+		}
+		#weather h3{
+			font-size: 16px;
+			font-weight: 300;
+			position: absolute;
+			bottom: 165px;
+			left: 25px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="slider" id="weather">
+			<section>
+				<article>
+					<h1>11°</h1>
+					<h2>New York</h2>
+					<h3>😀 19° - 😂 11°</h3>
+				</article>
+				<img src="wallpaper/1.jpg" >
+			</section>
+			<section>
+				<article>
+					<h1>20°</h1>
+					<h2>Paris</h2>
+					<h3>😀 22° - 😂 17°</h3>
+				</article>
+				<img src="wallpaper/2.jpg" >
+			</section>
+			<section>
+				<article>
+					<h1>14°</h1>
+					<h2>Beijing</h2>
+					<h3>😀 15° - 😂 12°</h3>
+				</article>
+				<img src="wallpaper/3.jpg" >
+			</section>
+			<section>
+				<article>
+					<h1>12°</h1>
+					<h2>San Francisco</h2>
+					<h3>😀 16° - 😂 10°</h3>
+				</article>
+				<img src="wallpaper/5.jpg" >
+			</section>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(".slider").HSlider({
+			easing: 'ease',
+			animationTime: '400',
+			pagination: false
+		});
+	</script>
+</body>
+</html>

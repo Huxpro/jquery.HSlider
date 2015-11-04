@@ -146,9 +146,10 @@
 				};
 				quiet = true;
 				// deal with OSX inertia scroll
+				console.log(settings.animationTime + 100);
 				setTimeout(function(){
 					quiet = false;
-				} , settings.animationTime + 100);
+				} , Number(settings.animationTime) + 100);
 			}
 		}
 
@@ -176,7 +177,6 @@
 				boxSizing:"border-box",
 				width:"100%",
 				bottom:0,
-				padding:42,
 				zIndex:4
 			})
 			if(settings.pagination == true) {

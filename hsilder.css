@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* ===========================================================
+ * HSlider.css v1
+ * ===========================================================
+ * Copyright 2013 Hux.
+ *
+ * Create an photo-first, fullpage web slider
+ * All animation is powered in CSS3
+ * Only for modern broswer
+ *
+ * ========================================================== */
+
+html{
+    min-height:100%;
+}
+
+body{
+	/* This image will be displayed fullscreen */
+    background:black;
+    /*background-size:cover; */
+    /* Workaround for some mobile browsers */
+    min-height:100%;
+    overflow: hidden;
+	width: 100%;
+	height:100%;
+	font-family: "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "Microsoft JhengHei", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans SC", "Source Han Sans TC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", SimSun, sans-serif;
+	font-size: 12px;
+    font-weight: 100;
+	color: white;
+}
+a{text-decoration:none;color:white;}
+a:hover{
+	cursor: pointer;
+	text-decoration:none;
+}
+
+.wrap{
+	width: 100%;
+	height:100%;
+	overflow: hidden;
+	position: absolute;
+	 -webkit-transform-style: preserve-3d;
+}
