@@ -13,10 +13,10 @@ A Full-Page Scrolling, Touch-Friendly jQuery Slider
 ## Live Demo
 
 <img alt="Mobile Weather-App Demo" src="pic/screenshot-mo.jpeg" width="300"  />
-#### [Mobile Weather-App Demo →](http://huangxuan.me/jquery.HSlider/demo-weather-app/)
+#### [Mobile Weather-App Demo →](https://huxpro.github.io/jquery.HSlider/demo-weather-app/)
 
 ![Desktop Gallery Demo](/pic/screenshot-pc.jpg)
-#### [Desktop Gallery Demo →](http://huangxuan.me/jquery.HSlider/)
+#### [Desktop Gallery Demo →](https://huxpro.github.io/jquery.HSlider/)
 
 
 
